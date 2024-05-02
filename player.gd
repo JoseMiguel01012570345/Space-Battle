@@ -36,13 +36,12 @@ func update_enemy_list():
 		OS.delay_msec(500)
 	pass
 
-func change_target(next:int):
-	
-	target_to_shot += next
+func change_target():
+
+	target_to_shot += 1
 	if target_to_shot + 1 >= enemy_list.size():
 		target_to_shot = 0
-	if target_to_shot <= -1 :
-		target_to_shot = enemy_list.size() - 1
+	pass
 
 func face_to_enemy( area:Area2D ):
 	
@@ -67,13 +66,9 @@ func defend_position(  ):
 	
 	face_to_enemy(face_now)
 	
-	if Input.is_action_just_pressed("actionA"):
+	if not target_avaliable and target_timeout:
 		
-		change_target(-1)
-		
-	elif Input.is_action_just_pressed("actionD"):
-		
-		change_target(1)
+		change_target()
 		pass
 	
 	pass

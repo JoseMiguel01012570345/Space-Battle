@@ -125,7 +125,6 @@ func _process(delta):
 		pass
 
 	# follow player
-	# follow player
 	if not Simulation_Ended and $player:
 		$TextureRect.set_global_position($player.global_position - (screen_size/2))
 		$background_sound.global_position = $player.global_position - (screen_size/2)
@@ -173,7 +172,7 @@ func quite_map():
 
 func init(commander_number , enemy_soldier_number , player_soldiers_number ):
 	
-	my_map = world_map.get_map_formatted(5,5,30)
+	my_map = world_map.get_map_formatted(10,10,10)
 	draw_map(my_map)
 	quite_map()  
 	
@@ -520,8 +519,6 @@ func csp( number_ship , map , visited_ , stack_ ):
 			new_list.append(cell)
 			
 			map = set_ship_bussy_cells( cell["row"] , cell["column"] , map )
-			stack += neighborhood( cell["row"], cell["column"] , map , visited)
-			stack.remove(0)
 			number_ship -= 1
 			pass
 		
