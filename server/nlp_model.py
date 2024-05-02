@@ -51,7 +51,7 @@ def action_list(token_list):
 
 def generate_api_key():
 
-    genai.configure(api_key="AIzaSyDB74YrixiIRt_tE3phg3bZBHOiNynBH3I")
+    genai.configure(api_key="your_gemini_api_key")
 
 system("cls")
 
