@@ -179,3 +179,7 @@ In the experimentation with map generation, we observed that passing an offset o
 ## Agent Search
 
 Given the commander's search algorithm, we observed that the time it takes to find the flag is about 5 minutes, although this time can be shorter given the randomness of the points it chooses, and as we know that it visits the entire map, we can ensure its convergence. Additionally, we know that allied ships, once they see the flag, warn the commander to give the order to gather at that point, which makes the time shorter.
+
+# How to start
+
+In there is an executable on the folder exe , one for each system linux an windows
