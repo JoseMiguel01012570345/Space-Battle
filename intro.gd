@@ -14,7 +14,7 @@ func _process(delta):
 	else:
 		desplace_left()
 	
-	print(speed)
+	print(offset)
 	pass
 
 func desplace_right():
@@ -30,7 +30,7 @@ func desplace_left():
 	
 	global_position.x -= speed
 	offset -= speed
-	if offset == 0:
+	if offset == -100:
 		turn = "right"
 	
 	pass
