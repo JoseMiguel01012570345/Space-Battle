@@ -12,13 +12,10 @@ onready var ship_explotion = preload("res://ship_explotion.tscn")
 onready var player_dead = preload("res://player_dead.tscn")
 onready var impact = preload("res://impact.tscn")
 
-var project_path = ProjectSettings.globalize_path("res://") + "server/main.py"
-var server_global_location = project_path
 # ------server---------
-
-var host = '127.0.0.1'
-var port = 8000
 var client = StreamPeerTCP.new()
+var port = 8000
+var host = '127.0.0.1'
 var SimulationReady = false
 var serverUp = false
 var connector = ServerConnector.new()
@@ -80,11 +77,8 @@ func IALose(pos: Vector2):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("hello")
-	screen_size = get_viewport_rect().size
 	
-	OS.execute('py',[server_global_location,host,port],false,[])
-	 
+	screen_size = get_viewport_rect().size
 	client.connect_to_host(host,port)
 	
 	var rng = RandomNumberGenerator.new()
@@ -533,6 +527,5 @@ func csp( number_ship , map , visited_ , stack_ ):
 	restart_scene()
 	
 func restart_scene():
-	var current_scene = get_tree().current_scene.filename
-	get_tree().change_scene(current_scene)
+	get_tree().change_scene("res://loading.tscn")
 
