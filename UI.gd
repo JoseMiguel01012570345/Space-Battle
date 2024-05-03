@@ -2,6 +2,7 @@ extends Control
 
 
 signal send
+var description = $LineEdit.text
 var ai_answer = ""
 
 # Called when the node enters the scene tree for the first time.
