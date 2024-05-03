@@ -1,5 +1,6 @@
 extends Node2D
 
+var thread = Thread.new()
 var player
 var commander
 var enemy_soldier 
@@ -104,7 +105,7 @@ func _ready():
 	#	[true,true,false,false,true,false],
 	#	[true,true,true,true,true,false],
 	#]
-	#var a = connector.Ask_AI(MAP,10,10,client)
+	#
 	#print(a[0]['action'])
 	
 	init(  3  , 3 , 1 ) 
@@ -113,12 +114,10 @@ func _ready():
 	var player_pos = player.global_position
 	player.global_position = Vector2(int(player_pos.x / 30),int(player_pos.y / 30)) * 30 + Vector2(15,15)
 	
-	send = send.instance()
-	line_edit = line_edit.instance()
-	
 	pass
 
 func _process(delta): 
+	
 	
 	var status = client.get_status()
 	if status == StreamPeerTCP.STATUS_CONNECTED:
@@ -137,10 +136,7 @@ func _process(delta):
 		$TextureRect.set_global_position($player.global_position - (screen_size/2))
 		$background_sound.global_position = $player.global_position - (screen_size/2)
 		last_player_pos = $player.global_position
-		
-		line_edit.rect_position = $player.global_position - Vector2(983/2,-200)
-		send.rect_position = $player.global_position - Vector2(-983/2 + 50 ,-200)
-
+	
 		pass
 	elif Simulation_Ended:
 		game_over()
@@ -526,3 +522,18 @@ func csp( number_ship , map , visited_ , stack_ ):
 				pass
 		
 	print("error")
+
+func _on_UI_send():
+	
+	ask_ai()
+	
+	pass # Replace with function body.
+	
+func ask_ai():
+	
+	var answer = connector.Ask_AI( my_map , my_map.size() , my_map.size() , client )
+	
+	$CanvasLayer/UI.ai_answer = answer
+	
+	
+	pass

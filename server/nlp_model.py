@@ -53,7 +53,9 @@ def generate_api_key():
 
     genai.configure(api_key="AIzaSyDB74YrixiIRt_tE3phg3bZBHOiNynBH3I")
 
-def ask_AI( walls="[(1,2),(2,3),(4,5),(6,7),(8,9)]" , 
+def ask_AI( 
+           player_situation="",
+           walls="[(1,2),(2,3),(4,5),(6,7),(8,9)]" , 
            row_length= 12,
            column_length= 12,
            functions="[translate(x,y)]" ,
@@ -73,7 +75,9 @@ def ask_AI( walls="[(1,2),(2,3),(4,5),(6,7),(8,9)]" ,
             one soldier to which such commander gives orders. You and your soldier can do the next actions: \
             {functions} \
             {params_explanation} \
+            one of your soldiers says: {player_situation} \
             example input: \
+            soldier_situacion: I need to conquer flag \
             your_flag = [(1,1)] \
             your_position = [ \"my name is 17 and I am at position: \" (0,0) ] \
             wall = [(1,2),(2,3),(4,5),(6,7),(8,9)] \
@@ -91,10 +95,4 @@ def ask_AI( walls="[(1,2),(2,3),(4,5),(6,7),(8,9)]" ,
 
     response = model.generate_content(content)
     
-    token_list = tokenize_output(response.text,"[","]",";")
-
-    actions = action_list(token_list)
-    
-    print("the actions are: ", actions)
-    
-    return actions
+    return response.text

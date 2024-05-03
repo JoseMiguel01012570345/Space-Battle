@@ -17,6 +17,8 @@ var target_to_shot = 0
 var target_avaliable = false
 var target_timeout = false
 var ship_name = "hero"
+var ally = []
+var ally_detection = ["your_commander","friend"]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -296,7 +298,12 @@ func _on_radar_area_entered(area):
 		if item == area.id:
 			enemy_list.append( area )
 			enemy_detected = true
-		
+	
+	for item in ally_detection:
+			
+		if item == area.id:
+			ally.append( area )
+			
 	pass # Replace with function body.
 
 func _on_radar_area_exited(area):
@@ -311,6 +318,13 @@ func _on_radar_area_exited(area):
 			break
 		i += 1
 
+	i = 0
+	while i < ally.size():
+		
+		if str(area.ship_name) == str(ally[i].ship_name):
+			ally.remove(i)
+			i -= 1
+		i += 1
 	pass # Replace with function body.
 
 func _on_target_detection_timeout():
