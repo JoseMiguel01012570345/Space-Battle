@@ -50,7 +50,7 @@ var commander_list = []
 var left_flag
 var right_flag
 var last_player_pos = Vector2.ZERO
-var Simulation_Ended
+var Simulation_Ended = false
 var send = preload("res://Button.tscn")
 var line_edit = preload("res://LineEdit.tscn")
 
@@ -96,17 +96,6 @@ func _ready():
 	player_soldier = preload("res://soldier_user.tscn")
 	player = preload("res://player.tscn")
 	your_commander = preload("res://you_commander.tscn")
-	
-	#var MAP = [
-	#	[true,true,false,false,true,false],
-	#	[true,true,false,false,true,false],
-	#	[true,true,false,false,true,false],
-	#	[true,true,false,false,true,false],
-	#	[true,true,false,false,true,false],
-	#	[true,true,true,true,true,false],
-	#]
-	#
-	#print(a[0]['action'])
 	
 	init(  3  , 3 , 1 ) 
 	
@@ -541,3 +530,13 @@ func ask_ai():
 	
 	
 	pass
+
+func _on_blue_flag_captured(winner):
+	
+	Simulation_Ended = true
+		
+	pass # Replace with function body.
+
+func _on_red_flag_captured(winner):
+	Simulation_Ended = true
+	pass # Replace with function body.

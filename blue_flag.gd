@@ -11,6 +11,7 @@ func set_position(pos):
 	
 func _on_Area2D_area_entered(area):
 
-	emit_signal("captured",area.id)
+	if area.id == "commander" or area.id == "enemy":
+		emit_signal("captured",area.id)
 
 	pass # Replace with function body.

@@ -11,6 +11,7 @@ func set_position(pos):
 
 func _on_red_flag_area_entered(area):
 	
-	emit_signal("captured",area.id)
+	if area.id == "player" or area.id == "your_commander" or area.id == "friend":
+		emit_signal("captured",area.id)
 
 	pass # Replace with function body.

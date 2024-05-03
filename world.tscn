@@ -64,4 +64,6 @@ zoom = Vector2( 0.9, 0.8 )
 
 [connection signal="tree_exited" from="." to="." method="_on_world_tree_exited"]
 [connection signal="finished" from="background_sound" to="." method="_on_background_sound_finished"]
+[connection signal="captured" from="blue_flag" to="." method="_on_blue_flag_captured"]
+[connection signal="captured" from="red_flag" to="." method="_on_red_flag_captured"]
 [connection signal="send" from="CanvasLayer/UI" to="." method="_on_UI_send"]

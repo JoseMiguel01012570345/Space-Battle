@@ -64,7 +64,7 @@ def ask_AI(
            ally_positions="[[my name is 45 and I am at position:(3,1)],[my name is 78 and I am at position:(5,6)]]" , 
            my_flag_position= "(0,0)" ,
            enemy_flag_position="[(4,2)]" , example_output="go to (4,5)" ):
-
+    
     generate_api_key()
 
     model = genai.GenerativeModel('gemini-pro')
@@ -93,6 +93,7 @@ def ask_AI(
             {enemy_positions} \
             output: "
 
+    print(content)
     response = model.generate_content(content)
     
     return response.text
