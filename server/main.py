@@ -88,12 +88,14 @@ def SetFriendsPositionsHandler(data):
 
 def NLPHandler(data):
     
-    walls = data['walls']
     row = data['row']
     column = data['column']
     description = data['description']
+    allys = data['allys']
+    enemys = data['enemys']
+    flag = data['flag']
     
-    result = ask_AI(description,str(walls),int(row),int(column))
+    result = ask_AI(description,int(row),int(column),str(enemys),str(allys),str(tuple(flag)))
     
     return result
 

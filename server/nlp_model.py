@@ -55,14 +55,13 @@ def generate_api_key():
 
 def ask_AI( 
            player_situation="",
-           walls="[(1,2),(2,3),(4,5),(6,7),(8,9)]" , 
            row_length= 12,
            column_length= 12,
-           functions="[go(x,y)]" ,
-           params_explanation="x is the row of a matrix , y is the column of the same matrix " ,
            enemy_positions="[[my name is 20 and I am at position: (3,1)],[my name is 23 and I am at position:(5,6)]]" , 
            ally_positions="[[my name is 45 and I am at position:(3,1)],[my name is 78 and I am at position:(5,6)]]" , 
            my_flag_position= "(0,0)" ,
+           functions="[go(x,y)]",
+           params_explanation="x is the row of a matrix , y is the column of the same matrix " ,
            enemy_flag_position="[(4,2)]" , example_output="go to (4,5)" ):
     
     generate_api_key()
@@ -88,12 +87,10 @@ def ask_AI(
             the input is: \
             {my_flag_position} \
             {ally_positions} \
-            {walls} \
             {enemy_flag_position} \
             {enemy_positions} \
             output: "
 
-    print(content)
     response = model.generate_content(content)
     
     return response.text

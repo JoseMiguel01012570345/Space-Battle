@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Line2D2.gd" type="Script" id=1]
+
+[node name="PlayerDirector" type="Node2D"]
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2( -101, 0 )
+points = PoolVector2Array( 0, 0, 100, 0 )
+width = 5.0
+
+[node name="Line2D2" type="Line2D" parent="."]
+position = Vector2( -99, 0 )
+points = PoolVector2Array( 10, -10, 0, 0, 10, 10 )
+width = 5.0
+script = ExtResource( 1 )

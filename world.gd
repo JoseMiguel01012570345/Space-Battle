@@ -12,7 +12,10 @@ onready var commander_dead = preload("res://commander_dead.tscn")
 onready var ship_explotion = preload("res://ship_explotion.tscn")
 onready var player_dead = preload("res://player_dead.tscn")
 onready var impact = preload("res://impact.tscn")
+onready var PlayerDirectorInstancer = preload("res://PlayerDirector.tscn")
 
+var Director = null
+var TargetPosition = Vector2()
 # ------server---------
 var client = StreamPeerTCP.new()
 var port = 8000
@@ -97,7 +100,7 @@ func _ready():
 	player = preload("res://player.tscn")
 	your_commander = preload("res://you_commander.tscn")
 	
-	init(  3  , 3 , 1 ) 
+	init(  3  , 3 , 10 ) 
 	
 	connector.SendBuildGraphRequest(my_map,client)
 	var player_pos = player.global_position
@@ -107,6 +110,17 @@ func _ready():
 
 func _process(delta): 
 	
+	if Director:
+		var dir = $player.global_position - TargetPosition
+		if dir.length_squared() < 50:
+			Director.Destroy()
+			pass
+		else:
+			var degree = dir.angle()
+			Director.rotation = degree
+			Director.global_position = $player.global_position
+			pass
+		pass
 	
 	var status = client.get_status()
 	if status == StreamPeerTCP.STATUS_CONNECTED:
@@ -522,8 +536,18 @@ func ask_ai():
 	
 	var description = $CanvasLayer/UI.description
 	$CanvasLayer/UI.description = ""
+	var my_allys = []
+	for all in $player.ally:
+		my_allys.append(all.global_position)
+		pass
 	
-	var answer = connector.Ask_AI( my_map , my_map.size() , my_map.size() ,description, client )
+	var enemys = []
+	for enemy in list_of_instance_of_enemy_soldiers:
+		enemys.append(enemy.global_position)
+		pass
+	
+	var answer = connector.Ask_AI( my_map , my_map.size() , my_map.size() ,description, client,my_allys,enemys,$blue_flag.global_position )
+	GetPositionAnswer(answer)
 	
 	$CanvasLayer/UI.ai_answer = answer
 	$CanvasLayer/UI.answer()
@@ -531,12 +555,32 @@ func ask_ai():
 	
 	pass
 
+func GetPositionAnswer(answer:String):
+	var position_vector = ""
+	var started = false
+	for i in range(len(answer)):
+		if answer[i] == '(':
+			started = true
+			continue
+		if started and not answer[i] == ")":
+			position_vector += answer[i]
+			pass
+		pass
+	var values = position_vector.split(',')
+	var left = int(values[0])
+	var right = int(values[1])
+	TargetPosition = Vector2(left,right)
+	if not Director:
+		Director = PlayerDirectorInstancer.instance()
+		add_child(Director)
+		pass
+
 func _on_blue_flag_captured(winner):
-	
+	last_player_pos = $blue_flag.global_position
 	Simulation_Ended = true
-		
 	pass # Replace with function body.
 
 func _on_red_flag_captured(winner):
+	last_player_pos = $red_flag.global_position
 	Simulation_Ended = true
 	pass # Replace with function body.

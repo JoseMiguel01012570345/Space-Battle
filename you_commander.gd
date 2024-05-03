@@ -48,7 +48,7 @@ var target_to_shot = 0
 var target_avaliable = false
 var target_timeout = false
 var current_defenders = 0
-var MaxDefenders = 2
+var MaxDefenders = 3
 
 func SetInstructions(instructions: Array):
 	HasInstruction = false

@@ -205,22 +205,25 @@ func SendEnemysPositions(enemys: Array,client: StreamPeerTCP):
 	var result = GetData(client)
 	pass
 	
-func Ask_AI(Map:Array,row,column,description:String,client):
-	var walls = []
-	for i in range(Map[0].size()):
-		for j in range(Map.size()):
-			if not Map[j][i]:
-				walls.append(Vector2(i,j))
-				pass
-			pass
-		pass
+func Ask_AI(Map:Array,row,column,description:String,client,ally=[],enemy=[],flag_position=Vector2()):
+	#var walls = []
+	#for i in range(Map[0].size()):
+		#for j in range(Map.size()):
+		#	if not Map[j][i]:
+		#		walls.append(Vector2(i,j))
+		#		pass
+		#	pass
+		#pass
 	var data = {
 		'ORDER':'AskAI',
 		'DATA':{
-			'walls':walls,
+			#'walls':walls,
 			'description':description,
 			'row':row,
-			'column':column
+			'column':column,
+			'allys': ally,
+			'enemys': enemy,
+			'flag': flag_position
 		}
 	}
 	SendData(data,client)
