@@ -57,7 +57,6 @@ Bullet = ExtResource( 8 )
 scale = Vector2( 0.181, 0.14 )
 frames = SubResource( 1 )
 animation = "speed1"
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -73,13 +72,6 @@ shape = SubResource( 2 )
 frame = 0
 
 [node name="ship_collision_animation" parent="." instance=ExtResource( 11 )]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( -43, 1 )
-scale = Vector2( 0.181, 0.14 )
-current = true
-zoom = Vector2( 0.8, 0.7 )
-smoothing_enabled = true
 
 [node name="direction_collision" parent="." instance=ExtResource( 13 )]
 
@@ -99,6 +91,13 @@ collision_mask = 4126
 
 [node name="target_detection" type="Timer" parent="."]
 autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( -3.93391e-06, 0 )
+scale = Vector2( 0.181, 0.14 )
+current = true
+zoom = Vector2( 0.8, 0.7 )
+smoothing_enabled = true
 
 [connection signal="area_entered" from="." to="." method="_on_player_area_entered"]
 [connection signal="animation_finished" from="explotion_animation" to="." method="_on_explotion_animation_animation_finished"]

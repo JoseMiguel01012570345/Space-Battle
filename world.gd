@@ -50,6 +50,8 @@ var left_flag
 var right_flag
 var last_player_pos = Vector2.ZERO
 var Simulation_Ended
+var send = preload("res://Button.tscn")
+var line_edit = preload("res://LineEdit.tscn")
 
 func GetBlueFlagPosition():
 	return $blue_flag.global_position
@@ -107,12 +109,13 @@ func _ready():
 	
 	init(  3  , 3 , 1 ) 
 	
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	
 	connector.SendBuildGraphRequest(my_map,client)
 	var player_pos = player.global_position
 	player.global_position = Vector2(int(player_pos.x / 30),int(player_pos.y / 30)) * 30 + Vector2(15,15)
-
+	
+	send = send.instance()
+	line_edit = line_edit.instance()
+	
 	pass
 
 func _process(delta): 
@@ -134,8 +137,10 @@ func _process(delta):
 		$TextureRect.set_global_position($player.global_position - (screen_size/2))
 		$background_sound.global_position = $player.global_position - (screen_size/2)
 		last_player_pos = $player.global_position
-		$LineEdit.set_global_position( Vector2( length_x/2 ,length_y - 100 ))
-		$Button.set_global_position(Vector2( length_x/2 ,length_y - 100 ))
+		
+		line_edit.rect_position = $player.global_position - Vector2(983/2,-200)
+		send.rect_position = $player.global_position - Vector2(-983/2 + 50 ,-200)
+
 		pass
 	elif Simulation_Ended:
 		game_over()
@@ -218,7 +223,7 @@ func _on_background_sound_finished():
 	pass # Replace with function body.
 
 func _on_world_tree_exited():
-	#connector.killServer(client)
+	connector.killServer(client)
 	pass # Replace with function body.
 
 #_____________Flag placement____________
@@ -284,8 +289,8 @@ func generate_left_flag(left):
 	
 	var current_time_msec = OS.get_ticks_msec()
 	
-	for i in range( 0 , left_matrix.size() ) :
-		for j in range( 0 , left_matrix[0].size() ) :
+	for i in range( 0 , left_matrix.size()):
+		for j in range( 0 , left_matrix[0].size()):
 			
 			if is_valid_position(left_matrix,i,j):
 				
@@ -302,7 +307,7 @@ func generate_right_flag( right ):
 	var posible_positions = []
 	
 	var current_time_msec = OS.get_ticks_msec()
-	for i in range( 0 , right_matrix.size() ) :
+	for i in range( 0 , right_matrix.size()  ) :
 		for j in range( 0 , right_matrix[0].size() ) :
 			
 			if is_valid_position(right_matrix,i,j):
@@ -375,21 +380,11 @@ func instance_ship(pos, intance_ship_type):
 	
 	return ship
 
-func bussy_flag_cell( flag_pos ):
-	
-	return [ 
-		flag_pos , 
-		{ "row": flag_pos["row"] - 1 , "column": flag_pos["column"] } ,
-		{ "row": flag_pos["row"] , "column": flag_pos["column"] + 1 } ,
-		{ "row": flag_pos["row"] - 1 , "column": flag_pos["column"] + 1 } ,
-	]
-
 func locate_ships( number_ally , number_enemy_per_commander , blue ,red , number_of_commanders):
 	
 	var map = copy_matrix()
 	
 	#locate your_commander
-	map = set_flag_in_map( blue["row"] , blue["column"] ,map )
 	var stack = neighborhood(blue["row"] , blue["column"] ,map , [] )
 	var my_commander_result = csp( 1  , map , [] , stack )
 	map = my_commander_result["map"]
@@ -417,16 +412,15 @@ func locate_ships( number_ally , number_enemy_per_commander , blue ,red , number
 	for command in range(0,number_of_commanders):
 		
 		# locate commander
-		map = set_flag_in_map( red["row"] , red["column"] ,map )
 		var my_result = csp( 1  , map , [] , stack )
 		map = my_result["map"]
 		var boss = my_result["new"]
-
 		
 		#locate commander soldiers
 		var new_result = csp( number_enemy_per_commander , map , my_result["visited"] , my_result["stack"] )
 		map = new_result["map"]
 		var enemy_list = new_result["new"]
+		stack = new_result["stack"]
 		
 		opponent.append( { "command": boss , "soldiers": enemy_list  } )
 	
@@ -437,9 +431,7 @@ func locate_ships( number_ally , number_enemy_per_commander , blue ,red , number
 		list_of_instance_of_enemy_soldiers += draw_ships( group["soldiers"] , enemy_soldier )
 		
 		commander_list[-1].my_soldiers = list_of_instance_of_enemy_soldiers
-		
 		pass
-	
 	pass
 
 func draw_ships( list_of_ships ,ship_type ):
@@ -475,14 +467,14 @@ func neighborhood( row , column , matrix , visited):
 			if matrix[row+i][column+j] and not is_visited(row+i,column+j,visited):
 				neighborhood_matrix.append( { "row":row + i ,"column":column + j } )
 		
+		pass
+		
 	return neighborhood_matrix
 
 func set_ship_bussy_cells( row,column,matrix ):
 	
 	for i in range(-1,2):
 		for j in range(-1,2):
-			var my_row = matrix[ row + i ]
-			var cell =  my_row[ column + j ]
 			matrix[row + i][ column + j ] = false
 			
 	return matrix
@@ -500,21 +492,13 @@ func copy_matrix():
 	
 	return new_copy
 
-func set_flag_in_map(flag_row,flag_column,map):
-	
-	map[flag_row][flag_column] = false
-	map[flag_row - 1][flag_column] = false
-	map[flag_row][flag_column - 1] = false
-	map[flag_row - 1][flag_column - 1] = false
-	
-	return map
-
 func csp( number_ship , map , visited_ , stack_ ):
 	
 	var visited = visited_
 	var new_list = []
 	var stack = stack_
-		
+	var number_stack = []
+	
 	while stack.size() > 0 :
 		
 		if number_ship == 0:
@@ -530,15 +514,15 @@ func csp( number_ship , map , visited_ , stack_ ):
 			pass
 		
 		stack += neighborhood(cell["row"],cell["column"] , map , visited)
+		number_stack.append(stack.size())
 		
 		visited.append(stack[0])
 		stack.remove(0)
 		
-		pass
-	
-	print("reloading scene")
-	restart_scene()
-	
-func restart_scene():
-	get_tree().change_scene("res://loading.tscn")
-
+		if stack.size() == 0:
+			print("number_stack:",number_stack)
+			for i in stack_:
+				print(map[i['row']][i['column']])
+				pass
+		
+	print("error")

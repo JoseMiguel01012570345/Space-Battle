@@ -57,19 +57,5 @@ position = Vector2( 48, 44 )
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2( 0.9, 0.8 )
 
-[node name="LineEdit" type="LineEdit" parent="."]
-margin_left = -546.0
-margin_top = 193.0
-margin_right = 480.0
-margin_bottom = 234.0
-text = "ask for actions"
-
-[node name="Button" type="Button" parent="."]
-margin_left = 487.0
-margin_top = 194.0
-margin_right = 532.0
-margin_bottom = 234.0
-text = "send"
-
 [connection signal="tree_exited" from="." to="." method="_on_world_tree_exited"]
 [connection signal="finished" from="background_sound" to="." method="_on_background_sound_finished"]
