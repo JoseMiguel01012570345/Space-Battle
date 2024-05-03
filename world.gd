@@ -94,6 +94,17 @@ func _ready():
 	player = preload("res://player.tscn")
 	your_commander = preload("res://you_commander.tscn")
 	
+	#var MAP = [
+	#	[true,true,false,false,true,false],
+	#	[true,true,false,false,true,false],
+	#	[true,true,false,false,true,false],
+	#	[true,true,false,false,true,false],
+	#	[true,true,false,false,true,false],
+	#	[true,true,true,true,true,false],
+	#]
+	#var a = connector.Ask_AI(MAP,10,10,client)
+	#print(a[0]['action'])
+	
 	init(  3  , 3 , 1 ) 
 	
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
@@ -123,6 +134,8 @@ func _process(delta):
 		$TextureRect.set_global_position($player.global_position - (screen_size/2))
 		$background_sound.global_position = $player.global_position - (screen_size/2)
 		last_player_pos = $player.global_position
+		$LineEdit.set_global_position( Vector2( length_x/2 ,length_y - 100 ))
+		$Button.set_global_position(Vector2( length_x/2 ,length_y - 100 ))
 		pass
 	elif Simulation_Ended:
 		game_over()

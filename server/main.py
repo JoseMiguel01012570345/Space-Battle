@@ -6,6 +6,7 @@ from multiprocessing import Process
 from sys import argv
 from algorithms import GetPathToPoint
 import matplotlib.pyplot as plt
+from nlp_model import ask_AI
 
 
 global Handlers
@@ -85,6 +86,15 @@ def SetFriendsPositionsHandler(data):
     FriendsPositions = positions
     return "OK"
 
+def NLPHandler(data):
+    
+    walls = data['walls']
+    row = data['row']
+    column = data['column']
+    
+    result = ask_AI(str(walls),int(row),int(column))
+    
+    return result
 
 Handlers = {
     "BUILD_GRAPH": BuildGraphHandler,
@@ -93,6 +103,7 @@ Handlers = {
     "SET_ENEMY_POSITIONS": SetEnemyPositionsHandler,
     "SHOW_GRAPH": ShowGraphHandler,
     "UPDATE_FRIENDS_POSITIONS": SetFriendsPositionsHandler,
+    'AskAI':NLPHandler
 }
 
 

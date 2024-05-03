@@ -63,7 +63,8 @@ func _on_Button_pressed():
 	
 	if change_scene:
 		
-		get_tree().change_scene("res://loading.tscn")
+		var loading_instance = load("res://loading.tscn")
+		get_tree().change_scene_to(loading_instance)
 		
 	pass # Replace with function body.
 
@@ -74,3 +75,4 @@ func _on_Timer_timeout():
 	$error3.hide()
 	
 	pass # Replace with function body.
+

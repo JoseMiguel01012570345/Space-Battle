@@ -51,9 +51,7 @@ def action_list(token_list):
 
 def generate_api_key():
 
-    genai.configure(api_key="your_gemini_api_key")
-
-system("cls")
+    genai.configure(api_key="AIzaSyDB74YrixiIRt_tE3phg3bZBHOiNynBH3I")
 
 def ask_AI( walls="[(1,2),(2,3),(4,5),(6,7),(8,9)]" , 
            row_length= 12,
@@ -100,5 +98,3 @@ def ask_AI( walls="[(1,2),(2,3),(4,5),(6,7),(8,9)]" ,
     print("the actions are: ", actions)
     
     return actions
-
-ask_AI()

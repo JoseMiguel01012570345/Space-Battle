@@ -149,8 +149,8 @@ func change_direction(position,delta):
 	
 	position += motion * delta
 	
-	position.x = clamp(position.x , 50 , dimention_x  )  
-	position.y = clamp(position.y , 0 , dimention_y  ) 
+	#position.x = clamp(position.x , 50 , dimention_x  )  
+	#position.y = clamp(position.y , 0 , dimention_y  ) 
 
 	return position 
 

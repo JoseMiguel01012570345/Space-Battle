@@ -7,6 +7,9 @@ var server_global_location = project_path
 var background_rotation = 0
 var rot = 0
 var thread = Thread.new()
+var commander_number = 0
+var enemy_soldier_number = 0  
+var player_soldiers_number = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,10 +17,10 @@ func _ready():
 	var screen = get_viewport_rect().size
 	$loading_bar.set_position( Vector2(screen[0]/2,screen[1]/2 ) )
 	OS.execute('py',[server_global_location,host,port],false,[])
-	thread.start(self,"start_world")
+	
+	thread.start(self,"start_")
 	
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -25,7 +28,5 @@ func _process(delta):
 	$loading_bar.set_rotation(rot)
 	pass
 
-func start_world():
+func start_():
 	get_tree().change_scene("res://world.tscn")
-	pass
-	
