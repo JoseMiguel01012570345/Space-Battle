@@ -91,8 +91,9 @@ def NLPHandler(data):
     walls = data['walls']
     row = data['row']
     column = data['column']
+    description = data['description']
     
-    result = ask_AI(str(walls),int(row),int(column))
+    result = ask_AI(description,str(walls),int(row),int(column))
     
     return result
 

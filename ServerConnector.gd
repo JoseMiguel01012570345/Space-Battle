@@ -205,7 +205,7 @@ func SendEnemysPositions(enemys: Array,client: StreamPeerTCP):
 	var result = GetData(client)
 	pass
 	
-func Ask_AI(Map:Array,row,column,client):
+func Ask_AI(Map:Array,row,column,description:String,client):
 	var walls = []
 	for i in range(Map[0].size()):
 		for j in range(Map.size()):
@@ -218,6 +218,7 @@ func Ask_AI(Map:Array,row,column,client):
 		'ORDER':'AskAI',
 		'DATA':{
 			'walls':walls,
+			'description':description,
 			'row':row,
 			'column':column
 		}

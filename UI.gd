@@ -1,8 +1,7 @@
 extends Control
 
-
+var description = ""
 signal send
-var description = $LineEdit.text
 var ai_answer = ""
 
 # Called when the node enters the scene tree for the first time.
@@ -14,12 +13,13 @@ func _ready():
 func _process(delta):
 	pass
 
-func anwer():
+func answer():
 	$TextEdit.text = ai_answer
 	pass
 
 func _on_Button_pressed():
 	
+	description = $LineEdit.text
 	emit_signal("send")
 	
 	pass # Replace with function body.

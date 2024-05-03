@@ -58,12 +58,12 @@ def ask_AI(
            walls="[(1,2),(2,3),(4,5),(6,7),(8,9)]" , 
            row_length= 12,
            column_length= 12,
-           functions="[translate(x,y)]" ,
+           functions="[go(x,y)]" ,
            params_explanation="x is the row of a matrix , y is the column of the same matrix " ,
            enemy_positions="[[my name is 20 and I am at position: (3,1)],[my name is 23 and I am at position:(5,6)]]" , 
            ally_positions="[[my name is 45 and I am at position:(3,1)],[my name is 78 and I am at position:(5,6)]]" , 
            my_flag_position= "(0,0)" ,
-           enemy_flag_position="[(4,2)]" , example_output="[translate(4,5),translate(4,6),translate(4,7)]" ):
+           enemy_flag_position="[(4,2)]" , example_output="go to (4,5)" ):
 
     generate_api_key()
 

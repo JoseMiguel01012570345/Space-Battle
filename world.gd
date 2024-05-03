@@ -534,9 +534,10 @@ func ask_ai():
 	var description = $CanvasLayer/UI.description
 	$CanvasLayer/UI.description = ""
 	
-	var answer = connector.Ask_AI( my_map , my_map.size() , my_map.size() , client )
+	var answer = connector.Ask_AI( my_map , my_map.size() , my_map.size() ,description, client )
 	
 	$CanvasLayer/UI.ai_answer = answer
+	$CanvasLayer/UI.answer()
 	
 	
 	pass
