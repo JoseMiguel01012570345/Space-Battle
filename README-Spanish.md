@@ -1,5 +1,11 @@
 <center><h1><font size="20px">Space Battle</font></h1></center>
 
+# Integrantes
+
+### Yonatan José Guerra Pérez
+### Abdel Fregel Hernández
+### José Miguel Pérez Pérez
+
 <font size="3px">
 
 **`Space Battle`** es una simulación interactiva donde se modela el enfrentamiento entre dos equipos en un espacio determinado para lograr un objetivo, vencer al otro equipo.
@@ -86,9 +92,9 @@ Es un motor de desarrollo de videojuegos de código abierto y gratuito que permi
 
 Es un lenguaje de programación de alto nivel, interpretado y de propósito general creado en 1991. Es muy conocido por su sintáxis clara y legible, lo que lo hace fácil de aprender y usar, especialmente para principiantes. Además, es un lenguaje muy versátil que se utiliza en una amplia gama de aplicaciones, desde desarrollo web hasta ciencia de datos, inteligencia artificial, aprendizaje automático, automatización y más. Python es un lenguaje de programación dinámico, lo que significa que los tipos de datos se determinan en tiempo de ejecución. Esto permite a los programadores escribir código más flexible y menos propenso a errores. Python también es un lenguaje de programación de tipado fuerte, lo que significa que los tipos de datos de las variables deben ser declarados explícitamente. Una de las características más destacadas de Python es su amplio soporte para bibliotecas y frameworks, lo que facilita la implementación de una amplia gama de funcionalidades. Algunas de las bibliotecas más populares incluyen NumPy y Pandas para ciencia de datos, Django y Flask para desarrollo web, y TensorFlow y PyTorch para aprendizaje automático y inteligencia artificial.
 
-> ## Mistral 7B Instruct v0.1 Large Language Model (LLM)
+> ## Gemini (LLM)
 
-Es un modelo generativo de lenguaje que usa una variedad de conjuntos de datos de conversaciones públicas. Más información puede ser encontrada <a href="https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1">aquí</a>.
+Es un modelo de lenguaje multimodal de gran capacidad desarrollado por Google DeepMind, anunciado el 6 de diciembre de 2023 como sucesor de LaMDA y PaLM. Este modelo se compone de tres variantes: Gemini Nano, Gemini Pro y Gemini Ultra, y se posiciona como competidor de GPT-4 de OpenAI. Gemini es capaz de procesar diferentes tipos de entrada, incluyendo texto, imágenes, audio y video, lo que lo hace multimodal. Se basa en transformadores que solo decodifican, optimizados para funcionar eficientemente en unidades de procesamiento tensorial (TPUs). Puede manejar hasta 32.768 tokens de contexto utilizando una técnica llamada atención multi-consulta. Además, se entrena con un conjunto de datos multimodal y multilingüe, incluyendo documentos web, libros, código, imágenes, audio y video. Desde su lanzamiento, Gemini ha demostrado superar a varios modelos de lenguaje en pruebas de referencia de la industria, incluyendo GPT-4, Claude 2 de Anthropic, Inflection-2 de Inflection AI, LLaMA 2 de Meta y Grok 1 de xAI. La versión más potente, Gemini Ultra, superó a los expertos humanos en la prueba de Comprensión de Lenguaje Multitarea Masiva (MMLU) de 57 temas, obteniendo una puntuación del 90%.
 
 ## Arquitectura de la simulación
 
@@ -113,13 +119,17 @@ La biblioteca NetworkX ofrece varias características clave, incluyendo:
 - Análisis de Redes: Incluye una amplia gama de algoritmos para analizar propiedades de redes, como el grado de los nodos, la densidad de la red, la centralidad, la comunidad, entre otros.
 -Visualización de Redes: Ofrece herramientas para visualizar redes de manera gráfica, lo que facilita la comprensión de la estructura y las propiedades de las redes.
 
-Todas estas características en conjunto hacen que esta librería sea una excelente opción para la solucion de problemas de búsqueda de caminos.
+Todas estas características en conjunto hacen que esta librería sea una excelente opción para la solución de problemas de búsqueda de caminos.
 
 > ## Instructor
 
-Es el encargado de responder la consulta en lenguaje natural hecha por el usuario. Para esto usamos **Mistral 7B Instruct v0.1 Large Language Model**. Este recibe una consulta con la descripción de la simulación, los objetivos y la situación actual del usuario junto con las posiciones de los enemigos que el comandante de su equipo conoce. La respuesta es una posición a la que dirigirse en caso de que deba hacerlo y si debe atacar o defender.
+Es el encargado de responder la consulta en lenguaje natural hecha por el usuario. Para esto usamos **Gemini**. Este recibe una consulta con la descripción de la simulación, los objetivos y la situación actual del usuario junto con las posiciones de los enemigos que el comandante de su equipo conoce. La respuesta es una posición a la que dirigirse en caso de que deba hacerlo y si debe atacar o defender.
 
-# Detalles
+# Detalles específicos
+
+Para correr la simulación primero se debe levantar el servidor con el siguiente comando:
+
+    python main.py 127.0.0.1 8000
 
 > ## Simulador
 
@@ -152,19 +162,14 @@ Los agentes implementados siguen una estructura similar a una máquina de estado
 
 ### Comportamiento de los agentes 
 
-En este caso podemos reconocer fácilmente dos tipos de agentes, el comandante y el subordinado. El comandante ordena a sus subordinados ha desplazarse por el mapa mientras ejecutan ciertas acciones; a su vez, estos le informan constantemente al comandante sobre su situación(enemigos avistados y la posición de la bandera en caso de encontrarla). El comandante ordena constantemente buscar la bandera enemiga y una vez encontrada, todos los agentes convergen a la posición de la bandera.
+En este caso podemos reconocer fácilmente dos tipos de agentes, el comandante y el subordinado. El comandante ordena a sus subordinados a desplazarse por el mapa mientras ejecutan ciertas acciones; a su vez, estos le informan constantemente al comandante sobre su situación(enemigos avistados y la posición de la bandera en caso de encontrarla). El comandante ordena constantemente buscar la bandera enemiga y una vez encontrada, todos los agentes convergen a la posición de la bandera.
 
 #### Comandante
 El comandante tiene una algoritmo de búsqueda que dada la visión que tiene el comandante el divide el mapa en cuadrantes del tamaño de su area de visión y por cada cuadrante elige un punto aleatorio que pertenezca a cada cuadrante y visita dicho punto una vez visitado, lo marca como visitado y escoge otro, asi nos aseguramos que visita el mapa completo. El comandante va recibiendo que es lo que ven sus aliados y va tomando ordenes en consecuencia, o sea que cuando una de las naves o el mismo detecta la bandera enemiga, da la orden de reunirse en ese punto para poder capturarla. 
 
-### Generación de mapas 
-
-El comandante emplea una algoritmo de búsqueda que dado el rango de visión que tiene este, divide el mapa en cuadrantes del tamaño de su area de visión y por cada cuadrante elige un punto aleatorio que pertenezca a cada cuadrante y visita dicho punto, una vez visitado un cuadrante, lo marca como visitado y escoge otro, así nos aseguramos que visita el mapa completo. El comandante va recibiendo lo que ven sus aliados y dándole órdenes en consecuencia, o sea que cuando una de las naves o él mismo detecta la bandera enemiga, da la orden de reunirse en ese punto para poder capturarla.
-
 > ## Buscador 
 
 En el buscador implementamos la idea de llevar el mapa a un grafo para poder utilizar algoritmos estudiados. Con este grafo vamos descubriendo la posición de los enemigos y tambien sabemos la posición de nuestros aliados. Utilizamos la distancia Manhattan para poder ver la distancia a nuestras tropas aliadas para no alejarnos tanto de ellas y la inversa de esta función para alejarnos de los enemigos, siempre tratando de acercarnos a la bandera. En el momento que detecta dónde esta la bandera se dirige hasta donde se encuentra dicha bandera. 
-
 
 ### Generación de mapas 
 
@@ -187,15 +192,20 @@ Para el analisis estadistico tuvimos en cuenta varias metricas:
 - Cantidad de veces del comandante enemigo destruido
 - Aliados que sobreviven
 
-Hicimos 20 simulaciones y encontramos los siguientes resultados:
-- El promedio de distancia de la bandera a los muros : 6 cuadros
-- El promedio de naves destruidas fue de 6 naves enemigas de 10 que se creaban
-- Ganamos 15 partidas 
-- La simulacion duro un promedio de 4 minutos
-- De las 15 partidas ganadas 8 fueron por destruir el comandante enemigo
-- Los aliados que sobrevivian tuvieron un promedio de 5 de los 10 que se creaban
+Se ralizaron aproximadamente 200 - 250 simulaciones con la siguiente distribución:
 
-Analizando estos datos podemos apreciar que en la generacion de mapas, el posicionamiento de la bandera es bastante bueno pues la bandera en la mayoria de las partidas no estaba al aire libre lo que facilita su defensa y dificulta el encontrar un camino hacia ella. Tambien se aprecia que la simulacion no demora mucho y que nuestras naves son capaces de defenderse entre ellas y llegar a capturar la bandera enemiga.
+- 60-80 para la generación de mapas
+- 40-60 para observar la ubicación de las banderas
+- 60 para evaluar el comportamiento de los agentes
+- 50 para evaluar la simulación completa.
+
+Los resultados observados fueron:
+
+1 - Para un valor de offset de 0 o 1, los mapas generados fueron válidos(no existían casillas inaccesibles) en la gran mayoría de los casos, ya que solo en 3 de las simulaciones realizadas se observaron alrededor de 7 casillas inaccesibles, mientras que con valores superiores, el número de ocurrencias de esto aumentó considerablemente(se observó este hecho en 2 de cada 5 mapas generados). Para valores distintos seleccionados del seed_, solo se observó un cambio en la forma en que se encontraban distribuidos los obstáculos presentaba mayores irregularidades, haciendo más difícil detectar patrones. Aumentar las dimensiones de los cuadrantes para generar el mapa influye de igual forma que variar el seed_.
+
+2 - Las simulaciones realizadas en mapas pequeños solían acabar en menos de 5 minutos casi siempre por parte del equipo contrario, siempre y cuando el usuario no afectara mucho el desarrollo, la causa siempre era la captura de la bandera. En cambio, para mapas de mucha mayor dimensionalidad, la causa variabe entre captura de la bandera y destrucción de la nave comandante. Las simulaciones tardaban alrededor de 30 minutos y hasta más, siendo difícil incluso para el usuario la detección de la bandera enemiga. El número de enfrentamientos frontales disminuyó considerablemente, pero el número de naves restantes al terminar la partida no aumentó de manera proporcional.
+
+3 - El rango de visión de las naves resultó ser una variable de gran peso en el tiempo en que demoraba la simulación en terminar.
 
 ## Limitaciones del Proyecto
 
@@ -204,11 +214,18 @@ Analizando estos datos podemos apreciar que en la generacion de mapas, el posici
 - Al usar un servidor se ve afectado por la latencia de este aunque permite que el sistema sea distribuido 
 - En las colisiones no se detectan multiples colisiones simultaneas
 - Se hace dificil hacer debug
-
+- Para mapas muy grandes se hace más notable la latencia del servidor
+- Aumentar la cantidad de agentes en la simulación afecta enormemente la velocidad de esta.
 
 > ## Conclusiones
-Con este proyecto hemos aprendido a implementar agentes inteligentes y sus respectivas heuristicas, tambien nos ayudo a ampliar nuestros conocimientos y aplicar los que ya poseiamos , pues tuvimos que aprender Godot y utilizar un servidor como medio de comunicacion entre Godot y Pytho. Con el analisis de la simulacion podemos ver que aspectos podemos enfocarnos en mejorar como las heuristicas de las naves para que sea mas desafiante. La simulacion permitio detectar patrones en los comportamientos de las naves lo que nos sirvio para mejorar las heuristicas aunque estas puedan seguir siendo mejoradas.
+
+Con este proyecto pudimos evaluar el rendimento de ciertas técnicas y algoritmos conocidos en los ámbitos de la simulación y la Inteligencia Artificial. Apreciamos las deficiencias de la arquitectura de brooks para los agentes, ya que es complicado definir conductas complejas en base a situaciones que se le presentan ya que no existe ningún tipo de inferencia por parte del agente, sino que se comporta de forma predefinida. Como ventajas de esta arquitectura se tiene la facilidad a la hora de construirlos, además de que con un gran número de estos agentes, se pueden lograr comportamientos inteligentes de forma grupal, que es lo que se buscaba en este proyecto. También podemos destacar la eficiencia del algoritmo Astar a la hora de encontrar caminos óptimos según la situación actual, haciendo énfasis a la facilidad de traducir dicha situación ya que esto se reducía a cambiar la función de costo de las aristas.
+
+
 ### Recomendaciones 
-- Seguir investigando en la Inteligencia Artificial para mejorar las heuristicas de las naves y asi aumentar la dificultad
+- Seguir investigando en la Inteligencia Artificial para mejorar las heurísticas de las naves y asi aumentar la dificultad
 - Experimentar con otras variables y reglas de la simulacion para asi identificar nuevas formas de jugar
 - Seguir investigando sobre Godot para darle un mejor realismo a la simulacion
+- considerar otra estructura de agentes
+- considerar el uso de hilos por parte del servidor y la simulación para manejar las consultas
+- investigar sobre funciones para generar mapas aleatorios
